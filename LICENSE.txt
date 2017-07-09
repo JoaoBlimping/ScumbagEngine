@@ -1,0 +1,29 @@
+yeah I am using this tiled map reader thingy which I got from here:
+https://github.com/baylej/tmx
+yeah
+
+
+other than whatever stipulations they placed and I didn't read, my license is that you are not
+allowed to read, write, modify, distribute, use or otherwise have any interaction with my source
+code or binaries at all, in fact, you are not even allowed to read this license right here.
+So if you are some kind of nerd who cares about licenses and shit, I guess you will just have to
+fuck off.
+
+
+
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░░░░░░░░░░▄▄█▀▀▀▀█▄▄░░░░░░░░░░░
+░░░░░░░░░▄█▀░░░░░░░░▀█▄░░░░░░░░░
+░░░░░░░░█▀░▄▄▄▄░░▄▄▄▄░▀█░░░░░░░░
+░░░░░░░▄█▄▄▀▄▄▀▄▄▀▄▄▀▄▄█▄░░░░░░░
+░░░░░░░████▄▀▀▄▀▀▄▀▀▄████░░░░░░░
+░░░▄░▄░░█░░▀▀▀▀░░▀▀▀▀░░█░░▄░▄░░░
+░░▄███▄░█░░░░▀█▀▀█▀░░░░█░▄███▄░░
+░░░▀██░░█▄▄▄░░▀▀▀▀░░▄▄▄█░░██▀░░░
+░░░░██░░█▀███▄░░░░▄███▀█░░██░░░░
+░░░░██▄▄█░░░▀██████▀░░░█▄▄██░░░░
+░░░░░▀▀▀█▄▄▄▄██▀▀██▄▄▄▄█▀▀▀░░░░░
+░░░░░░░░██████░█▄░██████░░░░░░░░
+░░░░░░░░███████▄▄███████░░░░░░░░
+░░░░░░░░░░▄▄▄██░░██▄▄▄░░░░░░░░░░
+░░░░░░░░░░█▄▄██░░██▄▄█░░░░░░░░░░

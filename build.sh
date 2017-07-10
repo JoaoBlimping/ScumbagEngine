@@ -3,10 +3,11 @@
 # $3 -> flags
 
 CC=gcc
-FILES='main.c Image.c ini.c LinkedList.c load.c render.c Tileset.c tmx/tmx_err.c tmx/tmx_utils.c tmx/tmx_xmlc tmx/tmx_tmx.c'
-FLAGS='-lSDL2 -lSDL2_image'
+FILES='main.c Image.c ini.c LinkedList.c load.c render.c Level.c tmx/tmx_err.c tmx/tmx_utils.c tmx/tmx_xml.c tmx/tmx.c'
+FLAGS=`xml2-config --cflags`
+LIBS='-lSDL2 -lSDL2_image'
 DIR=`pwd`
 
 cd $1
-$CC $FILES -w $FLAGS $3 -o $DIR/$2
+$CC $FLAGS $FILES -w $LIBS `xml2-config --libs` $3 -o $DIR/$2
 cd $DIR

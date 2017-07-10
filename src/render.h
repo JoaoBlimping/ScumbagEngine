@@ -12,11 +12,13 @@ SDL_Renderer *render_renderer;
 
 
 
-int render_init();
+int render_init(char const *title,int width,int height,int fullscreen);
 
 void render_close();
 
 void render_update();
+
+void render_setFillColour(int colour);
 
 
 #endif

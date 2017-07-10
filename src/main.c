@@ -3,7 +3,7 @@
  *  |   \/ \/ || \ / VAEDSOM GEDARMEM SOMOARSE
  *   \____________/ */
 #include "Image.h"
-#include "Tileset.h"
+#include "Level.h"
 #include "render.h"
 #include <stdint.h>
 
@@ -16,7 +16,14 @@
 
 void loop()
 {
-  struct Tileset *tileset = Tileset_get(0);
+  struct Level *level = Level_loadLevel("maps/street.tmx");
+
+  int x = 0;
+  int y = 0;
+
+  render_setFillColour(level->map->backgroundcolor);
+
+  
 
   int i = 0;
   SDL_Event e;
@@ -24,14 +31,23 @@ void loop()
   {
     while(SDL_PollEvent(&e) != 0) if(e.type == SDL_QUIT) return;
 
-    SDL_RenderClear(render_renderer);
-    Tileset_render(tileset,i,0,0);
+    //SDL_RenderClear(render_renderer);
+    Level_renderLevel(level,x,y);
     render_update();
-    SDL_Delay(500);
-    i++;
 
-    if (i == 10) break;
+
+    const uint8_t *currentKeyStates = SDL_GetKeyboardState(NULL);
+    if(currentKeyStates[SDL_SCANCODE_UP]) y -= 3;
+    if(currentKeyStates[SDL_SCANCODE_DOWN]) y += 3;
+    if(currentKeyStates[SDL_SCANCODE_LEFT]) x -= 3;
+    if(currentKeyStates[SDL_SCANCODE_RIGHT]) x += 3;
   }
+
+
+
+
+
+
 }
 
 
@@ -39,11 +55,11 @@ void loop()
 int main(int argc, uint8_t **argv)
 {
   // Get the render system working
-  render_init("big boopwreopwr",900,600);
+  render_init("big boopwreopwr",900,666,argc > 1);
 
   // Now load some images
   Image_init();
-  Tileset_init();
+  Level_init();
 
   // Now do something cool
   loop();

@@ -12,6 +12,7 @@
 void Image_init();
 
 
+
 /** gives you an image by it's index */
 SDL_Texture *Image_get(int index);
 

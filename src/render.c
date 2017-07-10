@@ -7,11 +7,20 @@
 
 
 
-int render_init(char const *title,int width,int height)
+int render_init(char const *title,int width,int height,int fullscreen)
 {
   // Create window
-  render_window = SDL_CreateWindow(title,SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,width,
-                                  height,SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
+  if (fullscreen)
+  {
+    render_window = SDL_CreateWindow(title,SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,width,
+                                    height,SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
+  }
+  else
+  {
+    render_window = SDL_CreateWindow(title,SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,width,
+                                    height,SDL_WINDOW_SHOWN);
+  }
+
   if (render_window == NULL)
   {
     printf("sdl can't make window, error: %s\n",SDL_GetError());
@@ -19,7 +28,7 @@ int render_init(char const *title,int width,int height)
   }
 
   // Create renderer for window
-  render_renderer = SDL_CreateRenderer(render_window,-1,SDL_RENDERER_ACCELERATED);
+  render_renderer = SDL_CreateRenderer(render_window,-1,SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   if (render_renderer == NULL)
   {
     printf("Couldn't get SDL Renderer going :( SDL Error:%s\n",SDL_GetError());
@@ -47,4 +56,10 @@ void render_close()
 void render_update()
 {
   SDL_RenderPresent(render_renderer);
+}
+
+
+void render_setFillColour(int colour)
+{
+	SDL_SetRenderDrawColor(render_renderer,(colour >> 16) & 0xff,(colour >> 8) & 0xff,colour & 0xff,0xff);
 }

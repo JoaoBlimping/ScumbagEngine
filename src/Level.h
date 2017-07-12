@@ -2,13 +2,18 @@
 #define LEVEL_H
 
 
+#include "List.h"
+#include "Object.h"
 #include "tmx/tmx.h"
 #include <stdint.h>
 
 
+#define OBJECT_LIST_SIZE 7000
+
+
 struct Level
 {
-  struct Tileset *tileset;
+  struct Object *List_DEFINE(objects,OBJECT_LIST_SIZE);
   tmx_map *map;
 };
 

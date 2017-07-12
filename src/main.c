@@ -18,12 +18,26 @@ void loop()
 {
   struct Level *level = Level_loadLevel("maps/street.tmx");
 
+  struct Object dude;
+  dude.x = 20;
+  dude.y = 20;
+  dude.z = 1.55;
+  dude.h = 1.5;
+  dude.src.x = dude.src.y = 0;
+  dude.src.w = dude.dst.w = 64;
+  dude.src.h = dude.dst.h = 128;
+  dude.texture = Image_get(0);
+
+
+  List_PUSH(level->objects,&dude);
+
+
   int x = 0;
-  int y = 0;
+  int y = 100;
 
   render_setFillColour(level->map->backgroundcolor);
 
-  
+
 
   int i = 0;
   SDL_Event e;
@@ -31,7 +45,7 @@ void loop()
   {
     while(SDL_PollEvent(&e) != 0) if(e.type == SDL_QUIT) return;
 
-    //SDL_RenderClear(render_renderer);
+    SDL_RenderClear(render_renderer);
     Level_renderLevel(level,x,y);
     render_update();
 
@@ -41,6 +55,12 @@ void loop()
     if(currentKeyStates[SDL_SCANCODE_DOWN]) y += 3;
     if(currentKeyStates[SDL_SCANCODE_LEFT]) x -= 3;
     if(currentKeyStates[SDL_SCANCODE_RIGHT]) x += 3;
+
+    if(currentKeyStates[SDL_SCANCODE_O]) dude.y -= 0.1;
+    if(currentKeyStates[SDL_SCANCODE_P]) dude.x -= 0.1;
+    if(currentKeyStates[SDL_SCANCODE_K]) dude.x += 0.1;
+    if(currentKeyStates[SDL_SCANCODE_L]) dude.y += 0.1;
+
   }
 
 

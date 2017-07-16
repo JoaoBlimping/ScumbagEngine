@@ -1,14 +1,22 @@
-[ ] Asset Management
-  [ ] Since all these different things are going to have different kinds of data which is loaded
-  differently, I can write a load function in each type of thing's file and then in the assets file
-  I can use macros and shit to set up either repositories that load on demand, or ones that load
-  in everything at the start from a list.
+[x] collision detection and movement and shit
+  [x] make another model of the level which is stored alongside in an array kind of format for use
+  with the collision detector.
 
 
-[ ] Maps will be of a roll my own variety
-  [ ] make the tilesets
-  [ ] figure out a nice format for them which allows the placement of generic enemies as well as 3
-  layers of tiles, and also make it that tiles can have an event associated with them so that they
-  do something when the player steps on them, maybe not have it run a script, just hard code a
-  couple of things like turning on a switch or transporting to a new level
-  [ ]
+
+[ ] Asset management type hings
+  [ ] There are a few things that require linking between strings and other objects, so I am
+  probably going to need to implement some kind of hash map. Either that or just decide to search
+  through these lists for things with the right name, which won't be terrible if all assets an
+  object needs are loaded at the start, and so these lists are not searched during actual gameplay.
+  In order to facilitate this, actor scripts will not just be able to play any sound effect they
+  like. Instead they will have like a few (birth sound, random sound, attack sound, die sound) which
+  are loaded in at their creation, and these are the only sounds that actor can make.
+  Ok searching a list is out of the question due to me using SDL_Texture raw, so keep all this stuff
+  I said because it sounds cool, but I also have to implement some kind of map structure.
+
+  [ ] Music and sound system will just be normal, you load them in and know them by name, and then
+  when you want to play one, you just tell the music/sound player the name of the file you want and
+  it will play it.
+  Perhaps with music, don't actually load them in, just stream them so that it doesn't load for ages
+  at the start, and it uses less memory.

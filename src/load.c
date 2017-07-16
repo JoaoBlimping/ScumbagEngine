@@ -3,22 +3,39 @@
 #include "ini.h"
 
 
-void *load_all(char const *filename,void *(*builder)(char const *,char const *,void *),int size)
+struct load_Bucket *load_all(char const *filename,void *(*builder)(char const *,char const *,void *),int size)
 {
     uint8_t *file = ini_openFile(filename);
     struct LinkedList *keys = ini_getSections(file);
+    struct load_Bucket *items = calloc(keys->size + 1,sizeof(struct load_Bucket));
 
-    void *items = calloc(keys->size,size);
-    int i = 0;
+    // Add in empty first item containing size
+    items[0].key = "size";
+    items[0].value = keys->size;
+
+    // put in all the actual ones
+    int i = 1;
     LinkedList_ITERATE(keys,node)
     {
-      builder(node->data,file,items + size * i);
+      items[i].key = node->data;
+      items[i].value = malloc(size);
+      builder(node->data,file,&items[i].value);
       i++;
     }
 
     // Clean up time :)
-    LinkedList_destroy(keys);
+    LinkedList_free(keys);
     free(file);
 
     return items;
+}
+
+
+void *load_get(char const *key,struct load_Bucket *buckets)
+{
+  for (int i = 1;i <= buckets[0].value;i++)
+  {
+    if (!strcmp(key,buckets[i].key)) return buckets[i].value;
+  }
+  return NULL;
 }

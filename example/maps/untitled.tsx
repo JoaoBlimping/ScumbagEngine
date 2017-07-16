@@ -13,7 +13,7 @@
  </tile>
  <tile id="2">
   <properties>
-   <property name="tallness" type="int" value="0"/>
+   <property name="tallness" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="3">
@@ -23,7 +23,7 @@
  </tile>
  <tile id="4">
   <properties>
-   <property name="tallness" type="int" value="0"/>
+   <property name="tallness" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="5">
@@ -43,12 +43,12 @@
  </tile>
  <tile id="8">
   <properties>
-   <property name="tallness" type="int" value="0"/>
+   <property name="tallness" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="9">
   <properties>
-   <property name="tallness" type="int" value="0"/>
+   <property name="tallness" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="10">
@@ -63,12 +63,12 @@
  </tile>
  <tile id="12">
   <properties>
-   <property name="tallness" type="int" value="0"/>
+   <property name="tallness" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="13">
   <properties>
-   <property name="tallness" type="int" value="0"/>
+   <property name="tallness" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="14">
@@ -78,7 +78,7 @@
  </tile>
  <tile id="15">
   <properties>
-   <property name="tallness" type="int" value="0"/>
+   <property name="tallness" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="16">
@@ -118,7 +118,7 @@
  </tile>
  <tile id="23">
   <properties>
-   <property name="tallness" type="int" value="0"/>
+   <property name="tallness" type="int" value="1"/>
   </properties>
  </tile>
  <tile id="24">

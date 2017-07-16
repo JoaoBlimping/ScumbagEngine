@@ -5,7 +5,7 @@
 CC=gcc
 FILES='main.c Image.c ini.c LinkedList.c load.c render.c Level.c tmx/tmx_err.c tmx/tmx_utils.c tmx/tmx_xml.c tmx/tmx.c'
 FLAGS=`xml2-config --cflags`
-LIBS='-lSDL2 -lSDL2_image'
+LIBS='-lSDL2 -lSDL2_image -lm'
 DIR=`pwd`
 
 cd $1

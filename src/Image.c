@@ -8,7 +8,7 @@
 
 
 
-SDL_Texture **images;
+struct load_Bucket *images;
 
 
 
@@ -38,7 +38,13 @@ void Image_init()
 }
 
 
-SDL_Texture *Image_get(int index)
+SDL_Texture *Image_get(char const *key)
 {
-  return images[index];
+  SDL_Texture *image = load_get(key,images);
+  if (image == NULL)
+  {
+    printf("can't get image at %s\n",key);
+    return NULL;
+  }
+  return image;
 }

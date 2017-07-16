@@ -10,6 +10,7 @@ struct Object
   float x;
   float y;
   float z;
+  float w;
   float h;
   SDL_Rect src;
   SDL_Rect dst;

@@ -12,6 +12,7 @@ struct Object
   float z;
   float w;
   float h;
+  int alive;
   SDL_Rect src;
   SDL_Rect dst;
   SDL_Texture *texture;

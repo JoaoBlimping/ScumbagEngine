@@ -2,7 +2,7 @@
 /*
  *     \\ || //
  *      \\||//
- *       \  /
+ *       \  /   I am very lonely
  *        ||
  *        ||
  */
@@ -31,21 +31,16 @@ struct Level
   int tileHeight;
   /** background colour of the level */
   int backgroundColour;
-
   /** all the objects in the map that have to get sorted and displayed and that */
   struct Object *List_DEFINE(objects,OBJECT_LIST_SIZE);
-
   /** the neumber of layers */
   int nLayers;
-
   /** this is an array of pointers to arrays of ints where each one is a layer of the map, each
    * value is the height of that given tile. the heihts of each layer are given by the heights
    * property */
   float **collisions;
-
   /** tells you how high up each layer is */
   float *heights;
-
   /** this is not used for anything, but it is kept so that it can be freed only when it's stuff is
    * no longer needed */
   tmx_map *tiledMap;
@@ -77,6 +72,18 @@ int Level_checkSpace(struct Level *level,float x,float y,float z,float w,float h
  * @param z is the position on the z axis of this point
  * @return height of the floor below the point */
 float Level_floor(struct Level *level,float x,float y,float z);
+
+
+/** adds an object to the level
+ * @param level is a pointer to the level in which we are adding this new object
+ * @return a fresh new object */
+struct Object *Level_addObject(struct Level *level);
+
+
+/** adds a bullet to the level
+ * @param prototype is exactly how this bullet is going to be like too, but not the same object
+ * @return the new bullet */
+struct Bullet *Level_addBullet(struct Bullet const *prototype);
 
 
 /** renders a map :) */

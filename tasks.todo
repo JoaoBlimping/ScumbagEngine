@@ -5,7 +5,7 @@
 
 
 [ ] Asset management type hings
-  [ ] There are a few things that require linking between strings and other objects, so I am
+  [x] There are a few things that require linking between strings and other objects, so I am
   probably going to need to implement some kind of hash map. Either that or just decide to search
   through these lists for things with the right name, which won't be terrible if all assets an
   object needs are loaded at the start, and so these lists are not searched during actual gameplay.
@@ -20,3 +20,18 @@
   it will play it.
   Perhaps with music, don't actually load them in, just stream them so that it doesn't load for ages
   at the start, and it uses less memory.
+
+[ ] Adding bullets to the game.
+  [ ] Bullet pooling so that there are not too many. Ok, so we can create a bullet pool and each
+  bullet in the pool has the same properties basically, and so they are all added to the list of
+  objects in the level, and pointers to each object are held by each bullet object so that they can
+  look after themselves. Then, in order to remove
+  [ ] Bullets will have an ini file, but it will just contain their graphics, their size, and their
+  default speed, but this stuff can maybe be overidden
+
+[ ] Figure out how to make the player and other characters animated
+
+
+[ ] Add other characters and also triggers to level somehow
+
+[ ] Add scripts that control the player and other actors

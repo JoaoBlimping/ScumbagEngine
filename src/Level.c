@@ -61,6 +61,7 @@ void drawObjects(struct Level *level,int cameraX,int cameraY)
 	List_ITERATE(level->objects,i)
 	{
 		struct Object *obj = level->objects[i];
+		if (!obj->alive) continue;
 		obj->dst.x = level->width - (obj->x - obj->y) * halfWidth - cameraX - halfWidth;
 		obj->dst.y = (obj->x + obj->y) * halfHeight - obj->z * height - cameraY - (obj->src.h - height) + obj->h * height;
 		SDL_RenderCopy(render_renderer,obj->texture,&obj->src,&obj->dst);
@@ -115,6 +116,7 @@ struct Level *Level_loadLevel(uint8_t const *filename)
 					struct Object *block = malloc(sizeof(struct Object));
 					block->x = x;
 					block->y = y;
+					block->alive = 69;
 
 					tmx_property *properties = map->tiles[gid]->properties;
 					while (properties)
@@ -195,6 +197,34 @@ float Level_floor(struct Level *level,float x,float y,float z)
 		}
 	}
 	return height;
+}
+
+
+struct Object *Level_addObject(struct Level *level)
+{
+	struct Object *obj = calloc(sizeof(Object),1);
+	List_PUSH(level->objects,obj);
+	return obj;
+}
+
+
+struct Bullet *Level_addBullet(struct Bullet const *mother)
+{
+	/* TODO: this is meant to just add the bullet to the object list I think
+	   TODO: ok and the bullet list
+	struct Bullet *newBullet = malloc(sizeof(struct Bullet));
+	newBullet->object->w = mother->w;
+	newBullet->object->h = mother->h;
+	newBullet->object->alive = 0;
+	newBullet->object->src.x = mother->src.x;
+	newBullet->object->src.y = mother->src.y;
+	newBullet->object->src.w = mother->src.w;
+	newBullet->object->src.h = mother->src.h;
+	newBullet->object->dst.w = mother->dst.w;
+	newBullet->object->dst.h = mother->dst.h;
+	newBullet->object->texture = mother->texture;
+	return newBullet;
+	*/
 }
 
 

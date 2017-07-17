@@ -19,7 +19,6 @@ void move(struct Level *level,struct Object *dude,float vx,float vy,float vz)
   if (!Level_checkSpace(level,dude->x + vx,dude->y,dude->z,dude->w,dude->h)) vx = 0;
   if (!Level_checkSpace(level,dude->x,dude->y + vy,dude->z,dude->w,dude->h)) vy = 0;
   if (!Level_checkSpace(level,dude->x,dude->y,dude->z + vz,dude->w,dude->h)) vz = 0;
-
   dude->x += vx;
   dude->y += vy;
   dude->z += vz;
@@ -37,8 +36,9 @@ void loop()
   dude.x = 20;
   dude.y = 20;
   dude.z = 1.6;
-  dude.w = 1;
+  dude.w = 0.8;
   dude.h = 1.5;
+  dude.alive = 69;
   dude.src.x = dude.src.y = 0;
   dude.src.w = dude.dst.w = 64;
   dude.src.h = dude.dst.h = 128;
@@ -48,6 +48,7 @@ void loop()
   struct Object shadow;
   shadow.w = 1;
   shadow.h = 0.1;
+  shadow.alive = 69;
   shadow.src.x = shadow.src.y = 0;
   shadow.src.w = shadow.dst.w = 64;
   shadow.src.h = shadow.dst.h = 48;
@@ -96,7 +97,7 @@ void loop()
 
     shadow.x = dude.x;
     shadow.y = dude.y;
-    shadow.z = Level_floor(level,dude.x + dude.w / 2,dude.y + dude.w / 2,dude.z) + shadow.h;
+    shadow.z = Level_floor(level,dude.x + dude.w / 2,dude.y + dude.w / 2,dude.z) + shadow.h + 0.03;
   }
 }
 

@@ -46,7 +46,7 @@ void LinkedList_addNode(struct LinkedList *list,void *value)
 }
 
 
-struct LinkedList *LinkedList_get(struct LinkedList *list,int index)
+struct Node *LinkedList_get(struct LinkedList *list,int index)
 {
   int i = 0;
   struct Node *node = list->first;

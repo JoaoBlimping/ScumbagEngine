@@ -11,6 +11,7 @@
 
 #include "List.h"
 #include "Object.h"
+#include "Bullet.h"
 #include "tmx/tmx.h"
 #include <stdint.h>
 
@@ -51,7 +52,7 @@ void Level_init();
 
 
 /** loads in a map, usually you will probably call some cache thing and not this directly */
-struct Level *Level_loadLevel(uint8_t const *filename);
+struct Level *Level_loadLevel(char const *filename);
 
 
 /** checks if a given area contains any level blocks in it
@@ -81,9 +82,8 @@ struct Object *Level_addObject(struct Level *level);
 
 
 /** adds a bullet to the level
- * @param prototype is exactly how this bullet is going to be like too, but not the same object
- * @return the new bullet */
-struct Bullet *Level_addBullet(struct Bullet const *prototype);
+ * @param bullet is the bullet */
+void Level_addBullet(struct Bullet *bullet);
 
 
 /** renders a map :) */

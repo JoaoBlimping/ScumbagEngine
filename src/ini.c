@@ -20,7 +20,7 @@
 
 
 
-int skipToCharEnded(uint8_t const *file,int start,uint8_t target)
+int skipToCharEnded(char const *file,int start,char target)
 {
   int i;
   for (i = start;file[i] != target;i++) if (file[i] == 0) return i;
@@ -28,7 +28,7 @@ int skipToCharEnded(uint8_t const *file,int start,uint8_t target)
 }
 
 
-int skipToChar(uint8_t const *file,int start,uint8_t target)
+int skipToChar(char const *file,int start,char target)
 {
   int i;
   for (i = start;file[i] != target;i++)
@@ -39,7 +39,7 @@ int skipToChar(uint8_t const *file,int start,uint8_t target)
 }
 
 
-int skipToSection(uint8_t const *file,uint8_t const *target)
+int skipToSection(char const *file,char const *target)
 {
   int i = 0;
   while (69)
@@ -47,13 +47,13 @@ int skipToSection(uint8_t const *file,uint8_t const *target)
     i = skipToChar(file,i,'[');
     if (i == -1) return -1;
     int length = skipToChar(file,i,']') - i - 1;
-    if (!strncmp(file + i,target,length)) return i + length + 2;
+    if (!strncmp((char *)file + i,(char *)target,length)) return i + length + 2;
   }
 }
 
 
 
-uint8_t *ini_openFile(uint8_t const *filename)
+char *ini_openFile(char const *filename)
 {
   // Open the file
   SDL_RWops *input = SDL_RWFromFile(filename,"r");
@@ -67,7 +67,7 @@ uint8_t *ini_openFile(uint8_t const *filename)
 
   // Now get the size, then read it all into a thingo and send it off
   int length = SDL_RWsize(input);
-  uint8_t *output = (uint8_t *)malloc(length + 1);
+  char *output = (char *)malloc(length + 1);
   SDL_RWread(input,output,1,length);
   SDL_RWclose(input);
   output[length] = 0;
@@ -76,7 +76,7 @@ uint8_t *ini_openFile(uint8_t const *filename)
 }
 
 
-struct LinkedList *ini_getSections(uint8_t const *file)
+struct LinkedList *ini_getSections(char const *file)
 {
   struct LinkedList *list = LinkedList_create();
 
@@ -86,7 +86,7 @@ struct LinkedList *ini_getSections(uint8_t const *file)
     i = skipToChar(file,i,'[');
     if (i == -1) break;
     int length = skipToChar(file,i,']') - i - 1;
-    uint8_t *section = (uint8_t *)calloc(length + 1,1);
+    char *section = (char *)calloc(length + 1,1);
     strncpy(section,file + i,length);
 
     LinkedList_addNode(list,section);
@@ -95,7 +95,7 @@ struct LinkedList *ini_getSections(uint8_t const *file)
 }
 
 
-uint8_t *ini_readString(uint8_t const *file,uint8_t const *section,uint8_t const *param,uint8_t *fallback)
+char *ini_readString(char const *file,char const *section,char const *param,char *fallback)
 {
   int i = skipToSection(file,section);
   int end = skipToCharEnded(file,i,'[');
@@ -108,7 +108,7 @@ uint8_t *ini_readString(uint8_t const *file,uint8_t const *section,uint8_t const
     else if (!strncmp(file + i,param,sign - i - 1))
     {
       int length = endOfLine - sign;
-      uint8_t *string = (uint8_t *)calloc(length,1);
+      char *string = (char *)calloc(length,1);
       strncpy(string,file + sign,length - 1);
       string[length - 1] = 0;
       return string;
@@ -117,9 +117,9 @@ uint8_t *ini_readString(uint8_t const *file,uint8_t const *section,uint8_t const
   }
 }
 
-int ini_readInt(uint8_t const *file,uint8_t const *section,uint8_t const *param,int fallback)
+int ini_readInt(char const *file,char const *section,char const *param,int fallback)
 {
-  uint8_t *raw = ini_readString(file,section,param,NULL);
+  char *raw = ini_readString(file,section,param,NULL);
   if (raw == NULL) return fallback;
   int value = (int)strtol(raw,NULL,0);
   free(raw);
@@ -127,9 +127,9 @@ int ini_readInt(uint8_t const *file,uint8_t const *section,uint8_t const *param,
 }
 
 
-float ini_readFloat(uint8_t const *file,uint8_t const *section,uint8_t const *param,float fallback)
+float ini_readFloat(char const *file,char const *section,char const *param,float fallback)
 {
-  uint8_t *raw = ini_readString(file,section,param,NULL);
+  char *raw = ini_readString(file,section,param,NULL);
   if (raw == NULL) return fallback;
   float value = atof(raw);
   free(raw);

@@ -3,6 +3,9 @@
 #define LOAD_H
 
 
+#include <stdint.h>
+
+
 /** holds a value along with the key associated with it so that we can get the value by it's key */
 struct load_Bucket
 {

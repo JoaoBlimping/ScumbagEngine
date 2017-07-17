@@ -3,7 +3,10 @@
  *  |   \/ \/ || \ / VAEDSOM GEDARMEM SOMOARSE
  *   \____________/ */
 #include "Image.h"
+#include "BulletGroup.h"
 #include "Level.h"
+#include "load.h"
+#include "Bullet.h"
 #include "render.h"
 #include <stdint.h>
 #include <math.h>
@@ -54,6 +57,15 @@ void loop()
   shadow.src.h = shadow.dst.h = 48;
   shadow.texture = Image_get("shadow");
 
+  struct Bullet *bullet = Bullet_get("dart");
+  printf("outside %f\n",bullet->vx);
+
+  struct BulletGroup *bullets = BulletGroup_create(10,bullet,level);
+
+
+
+
+
 
   List_PUSH(level->objects,&dude);
   List_PUSH(level->objects,&shadow);
@@ -65,7 +77,6 @@ void loop()
 
 
 
-  int i = 0;
   SDL_Event e;
   while (69)
   {
@@ -82,11 +93,12 @@ void loop()
     float vx = 0;
     float vy = 0;
     float vz = -0.1;
-    if(currentKeyStates[SDL_SCANCODE_O]) vy = -0.1;
-    if(currentKeyStates[SDL_SCANCODE_P]) vx = -0.1;
-    if(currentKeyStates[SDL_SCANCODE_K]) vx = 0.1;
-    if(currentKeyStates[SDL_SCANCODE_L]) vy = 0.1;
-    if(currentKeyStates[SDL_SCANCODE_SPACE]) vz = 0.2;
+    if (currentKeyStates[SDL_SCANCODE_O]) vy = -0.1;
+    if (currentKeyStates[SDL_SCANCODE_P]) vx = -0.1;
+    if (currentKeyStates[SDL_SCANCODE_K]) vx = 0.1;
+    if (currentKeyStates[SDL_SCANCODE_L]) vy = 0.1;
+    if (currentKeyStates[SDL_SCANCODE_SPACE]) vz = 0.2;
+    if (currentKeyStates[SDL_SCANCODE_Z]) BulletGroup_add(dude.x,dude.y,dude.z,bullets);
 
     x = 50 - (dude.x - dude.y) * 32 - 500;
     y = (dude.x + dude.y) * 24 - 500;
@@ -103,7 +115,7 @@ void loop()
 
 
 
-int main(int argc, uint8_t **argv)
+int main(int argc,char **argv)
 {
   // Get the render system working
   render_init("big boopwreopwr",900,666,argc > 1);
@@ -111,6 +123,7 @@ int main(int argc, uint8_t **argv)
   // Now load some images
   Image_init();
   Level_init();
+  Bullet_init();
 
   // Now do something cool
   loop();

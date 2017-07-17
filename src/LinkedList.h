@@ -49,7 +49,7 @@ void LinkedList_addNode(struct LinkedList *list,void *value);
  * @param list points to the list
  * @param index is the index at which the item is gotten
  * @return your desired item, or NULL if you chose one past the end of the list */
-struct LinkedList *LinkedList_get(struct LinkedList *list,int index);
+struct Node *LinkedList_get(struct LinkedList *list,int index);
 
 /** converts the linked list to an array */
 void **LinkedList_toArray(struct LinkedList *list);

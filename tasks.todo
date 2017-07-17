@@ -21,6 +21,11 @@
   Perhaps with music, don't actually load them in, just stream them so that it doesn't load for ages
   at the start, and it uses less memory.
 
+  [ ] In order to get rid of a lot of errors that might actually matter later on, I need to not use
+  a pointer as an int. Instead we can possibly just return the length of the number of buckets
+  from the loader function, or we can add some new thing that the first bucket points to. Or we
+  could store it in the name as the first byte or something ridiculous like that.
+
 [ ] Adding bullets to the game.
   [ ] Bullet pooling so that there are not too many. Ok, so we can create a bullet pool and each
   bullet in the pool has the same properties basically, and so they are all added to the list of

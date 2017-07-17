@@ -1,5 +1,6 @@
 #include "Level.h"
 
+#include "Bullet.h"
 #include "Object.h"
 #include "render.h"
 #include "tmx/tmx.h"
@@ -14,7 +15,7 @@
 
 
 
-SDL_Texture *textureLoader(uint8_t const *file)
+SDL_Texture *textureLoader(char const *file)
 {
 	SDL_Surface *surface = IMG_Load(file);
   if (surface == NULL)
@@ -77,7 +78,7 @@ void Level_init()
 
 
 
-struct Level *Level_loadLevel(uint8_t const *filename)
+struct Level *Level_loadLevel(char const *filename)
 {
 	// Load in the tmx stuff
   tmx_map *map = tmx_load(filename);
@@ -202,28 +203,16 @@ float Level_floor(struct Level *level,float x,float y,float z)
 
 struct Object *Level_addObject(struct Level *level)
 {
-	struct Object *obj = calloc(sizeof(Object),1);
+	struct Object *obj = calloc(sizeof(struct Object),1);
 	List_PUSH(level->objects,obj);
 	return obj;
 }
 
 
-struct Bullet *Level_addBullet(struct Bullet const *mother)
+void Level_addBullet(struct Bullet *bullet)
 {
 	/* TODO: this is meant to just add the bullet to the object list I think
 	   TODO: ok and the bullet list
-	struct Bullet *newBullet = malloc(sizeof(struct Bullet));
-	newBullet->object->w = mother->w;
-	newBullet->object->h = mother->h;
-	newBullet->object->alive = 0;
-	newBullet->object->src.x = mother->src.x;
-	newBullet->object->src.y = mother->src.y;
-	newBullet->object->src.w = mother->src.w;
-	newBullet->object->src.h = mother->src.h;
-	newBullet->object->dst.w = mother->dst.w;
-	newBullet->object->dst.h = mother->dst.h;
-	newBullet->object->texture = mother->texture;
-	return newBullet;
 	*/
 }
 

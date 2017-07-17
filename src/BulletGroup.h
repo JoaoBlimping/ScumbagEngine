@@ -1,8 +1,10 @@
 #ifndef BULLET_GROUP_H
 #define BULLET_GROUP_H
 
-
+#include "Level.h"
 #include "Bullet.h"
+#include <stdlib.h>
+
 
 
 /** a whole bunch of reusable bullets that are all of the same kind.
@@ -15,7 +17,7 @@ struct BulletGroup
   /** the bullet that all others are based on */
   struct Bullet const *mother;
   /** this is the lot of bullets */
-  struct Bullet *children[];
+  struct Bullet children[];
 };
 
 
@@ -32,7 +34,7 @@ struct BulletGroup *BulletGroup_create(int size,struct Bullet const *mother,stru
  * @param y is the y position to add the bullet at
  * @param z is the z position to add the bullet at
  * @param group is the group we are doing this for */
-struct Bullet *BulletGroup_add(float x,float y,struct BulletGroup *group);
+struct Bullet *BulletGroup_add(float x,float y,float z,struct BulletGroup *group);
 
 
 #endif

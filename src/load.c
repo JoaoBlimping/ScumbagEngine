@@ -1,13 +1,16 @@
 #include "load.h"
 
 #include "ini.h"
+#include <string.h>
+
+
 
 
 struct load_Bucket *load_all(char const *filename,void *(*builder)(char const *,char const *,void *),int size)
 {
-    uint8_t *file = ini_openFile(filename);
+    char *file = ini_openFile(filename);
     struct LinkedList *keys = ini_getSections(file);
-    struct load_Bucket *items = calloc(keys->size + 1,sizeof(struct load_Bucket));
+    struct load_Bucket *items = calloc(sizeof(struct load_Bucket),keys->size + 1);
 
     // Add in empty first item containing size
     items[0].key = "size";
@@ -19,7 +22,7 @@ struct load_Bucket *load_all(char const *filename,void *(*builder)(char const *,
     {
       items[i].key = node->data;
       items[i].value = malloc(size);
-      builder(node->data,file,&items[i].value);
+      builder(node->data,file,items[i].value);
       i++;
     }
 
@@ -33,9 +36,9 @@ struct load_Bucket *load_all(char const *filename,void *(*builder)(char const *,
 
 void *load_get(char const *key,struct load_Bucket *buckets)
 {
-  for (int i = 1;i <= buckets[0].value;i++)
+  for (int i = 1;i <= (int)(buckets[0].value);i++)
   {
-    if (!strcmp(key,buckets[i].key)) return buckets[i].value;
+    if (!strcmp(buckets[i].key,key)) return buckets[i].value;
   }
   return NULL;
 }

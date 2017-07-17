@@ -43,6 +43,7 @@ int render_init(char const *title,int width,int height,int fullscreen)
     printf("SDL_image could not initialize! SDL_image Error: %s\n",IMG_GetError());
     return 1;
   }
+  return 0;
 }
 
 void render_close()

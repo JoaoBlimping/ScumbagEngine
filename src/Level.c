@@ -87,6 +87,7 @@ struct Level *Level_loadLevel(char const *filename)
 	// Make the basic thing
 	struct Level *level = calloc(sizeof(struct Level),1);
 	List_INIT(level->objects);
+	List_INIT(level->bullets);
 	level->width = map->width;
 	level->breadth = map->height;
 	level->tileWidth = map->tile_width;
@@ -177,6 +178,7 @@ int Level_checkSpace(struct Level *level,float x,float y,float z,float w,float h
 				{
 					float tileHeight = level->collisions[l][TILE_INDEX(ix,iy,level->width)];
 					if ((layerBottom + tileHeight >= z - h) && tileHeight) return 0;
+					if (x < 0 || y < 0 || ix >= level->width || iy >= level->breadth) return 0;
 				}
 			}
 		}
@@ -209,11 +211,33 @@ struct Object *Level_addObject(struct Level *level)
 }
 
 
-void Level_addBullet(struct Bullet *bullet)
+void Level_addBullet(struct Bullet *bullet,struct Level *level)
 {
-	/* TODO: this is meant to just add the bullet to the object list I think
-	   TODO: ok and the bullet list
-	*/
+	List_PUSH(level->bullets,bullet);
+}
+
+
+void Level_update(struct Level *level)
+{
+	List_ITERATE(level->bullets,i)
+	{
+		if (!level->bullets[i]->object->alive) continue;
+		float x = level->bullets[i]->object->x + level->bullets[i]->vx;
+		float y = level->bullets[i]->object->y + level->bullets[i]->vy;
+		float z = level->bullets[i]->object->z + level->bullets[i]->vz;
+
+		if (!Level_checkSpace(level,x,y,z,level->bullets[i]->object->w,level->bullets[i]->object->h))
+		{
+			level->bullets[i]->object->alive = 0;
+		}
+		else
+		{
+			level->bullets[i]->object->x += level->bullets[i]->vx;
+			level->bullets[i]->object->y += level->bullets[i]->vy;
+			level->bullets[i]->object->y += level->bullets[i]->vz;
+		}
+	}
+
 }
 
 

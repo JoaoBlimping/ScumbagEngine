@@ -57,8 +57,7 @@ void loop()
   shadow.src.h = shadow.dst.h = 48;
   shadow.texture = Image_get("shadow");
 
-  struct Bullet *bullet = Bullet_get("dart");
-  printf("outside %f\n",bullet->vx);
+  struct Bullet const *bullet = Bullet_get("dart");
 
   struct BulletGroup *bullets = BulletGroup_create(10,bullet,level);
 
@@ -72,6 +71,8 @@ void loop()
   int x = 0;
   int y = 100;
 
+  float angle = 0;
+
 
   render_setFillColour(level->backgroundColour);
 
@@ -83,11 +84,13 @@ void loop()
     while(SDL_PollEvent(&e) != 0) if(e.type == SDL_QUIT) return;
 
     SDL_RenderClear(render_renderer);
+    Level_update(level);
     Level_renderLevel(level,x,y);
     render_update();
 
 
     const uint8_t *currentKeyStates = SDL_GetKeyboardState(NULL);
+
 
 
     float vx = 0;
@@ -98,7 +101,10 @@ void loop()
     if (currentKeyStates[SDL_SCANCODE_K]) vx = 0.1;
     if (currentKeyStates[SDL_SCANCODE_L]) vy = 0.1;
     if (currentKeyStates[SDL_SCANCODE_SPACE]) vz = 0.2;
-    if (currentKeyStates[SDL_SCANCODE_Z]) BulletGroup_add(dude.x,dude.y,dude.z,bullets);
+
+    if ((vx != 0 || vy != 0) && !currentKeyStates[SDL_SCANCODE_LSHIFT]) angle = atan2(vy,vx);
+
+    if (currentKeyStates[SDL_SCANCODE_Z]) BulletGroup_add(dude.x,dude.y,dude.z,angle,bullets);
 
     x = 50 - (dude.x - dude.y) * 32 - 500;
     y = (dude.x + dude.y) * 24 - 500;

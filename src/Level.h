@@ -17,6 +17,7 @@
 
 
 #define OBJECT_LIST_SIZE 7000
+#define BULLET_LIST_SIZE 2000
 
 
 /** a level in the game */
@@ -34,6 +35,8 @@ struct Level
   int backgroundColour;
   /** all the objects in the map that have to get sorted and displayed and that */
   struct Object *List_DEFINE(objects,OBJECT_LIST_SIZE);
+  /** all of the bullets in the level */
+  struct Bullet *List_DEFINE(bullets,BULLET_LIST_SIZE);
   /** the neumber of layers */
   int nLayers;
   /** this is an array of pointers to arrays of ints where each one is a layer of the map, each
@@ -82,8 +85,14 @@ struct Object *Level_addObject(struct Level *level);
 
 
 /** adds a bullet to the level
- * @param bullet is the bullet */
-void Level_addBullet(struct Bullet *bullet);
+ * @param bullet is the bullet
+ * @param level is the level we are adding to */
+void Level_addBullet(struct Bullet *bullet,struct Level *level);
+
+
+/** updates the level and does nice stuff like move things
+ * @param level is the level */
+void Level_update(struct Level *level);
 
 
 /** renders a map :) */

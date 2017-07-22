@@ -19,7 +19,7 @@ struct load_Bucket
  * the file so that it can get some data from it if need be, then it returns a pointer to an array
  * of these things */
 struct load_Bucket *load_all(char const *filename,
-                             void *(*builder)(char const *key,char const *file,void *item),
+                             void (*builder)(char const *key,char const *file,void *item),
                              int size);
 
 /** get an item from an array of buckets

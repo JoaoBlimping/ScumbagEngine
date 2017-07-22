@@ -33,8 +33,9 @@ struct BulletGroup *BulletGroup_create(int size,struct Bullet const *mother,stru
  * @param x is the x position to add the bullet at
  * @param y is the y position to add the bullet at
  * @param z is the z position to add the bullet at
+ * @param angle is the angle to fire it at
  * @param group is the group we are doing this for */
-struct Bullet *BulletGroup_add(float x,float y,float z,struct BulletGroup *group);
+struct Bullet *BulletGroup_add(float x,float y,float z,float angle,struct BulletGroup *group);
 
 
 #endif

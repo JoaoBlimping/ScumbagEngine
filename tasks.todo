@@ -14,29 +14,42 @@
   are loaded in at their creation, and these are the only sounds that actor can make.
   Ok searching a list is out of the question due to me using SDL_Texture raw, so keep all this stuff
   I said because it sounds cool, but I also have to implement some kind of map structure.
-
   [ ] Music and sound system will just be normal, you load them in and know them by name, and then
   when you want to play one, you just tell the music/sound player the name of the file you want and
   it will play it.
   Perhaps with music, don't actually load them in, just stream them so that it doesn't load for ages
   at the start, and it uses less memory.
-
   [ ] In order to get rid of a lot of errors that might actually matter later on, I need to not use
   a pointer as an int. Instead we can possibly just return the length of the number of buckets
   from the loader function, or we can add some new thing that the first bucket points to. Or we
   could store it in the name as the first byte or something ridiculous like that.
+  [ ] Images shouldn't be all loaded at the start, I should make some kind of repository thing that
+  loads them in when they are first asked for, and just recycled from then on
 
 [ ] Adding bullets to the game.
-  [ ] Bullet pooling so that there are not too many. Ok, so we can create a bullet pool and each
+  [x] Bullet pooling so that there are not too many. Ok, so we can create a bullet pool and each
   bullet in the pool has the same properties basically, and so they are all added to the list of
   objects in the level, and pointers to each object are held by each bullet object so that they can
   look after themselves. Then, in order to remove
-  [ ] Bullets will have an ini file, but it will just contain their graphics, their size, and their
+  [x] Bullets will have an ini file, but it will just contain their graphics, their size, and their
   default speed, but this stuff can maybe be overidden
+  [ ] do collision detection between bullets and characters to shotten them
+
+[ ] Add the gui system and simultaneously, figure out the scripting system
+  [ ] it needs to load in a bunch of default window layouts that set the dimensions of the outer
+  window, and maybe also it's type. so it needs init stuff and an ini file
+  [ ] The GUI system also basically has to control the flow of control of the game, or be caught up
+  in it. so that means I need to do that at the same time.
+    [ ] scenes can basically consist of a struct with a name and a couple of function pointers
+    (init,update,render,exit). Then all their stuff can still hang around statically in their own
+    source files.
+    [ ] yeah and then the usual stuff with gui overriding the scene in controlling stuff, but the
+    scene still appears beneath it
+
+[ ] Add other characters and also triggers to level loader somehow.
+  [ ] Make it that characters are added into the level using special tiles that have a picture of
+  them on it
+  [ ] get triggers from regions, and make them a bit more convenient than they were last time
+  [ ] Add scripts that control the player and other actors
 
 [ ] Figure out how to make the player and other characters animated
-
-
-[ ] Add other characters and also triggers to level somehow
-
-[ ] Add scripts that control the player and other actors

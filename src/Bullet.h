@@ -16,6 +16,14 @@ struct Bullet
   float vy;
   /** the bullet's z velocity */
   float vz;
+  /** the default speed the bullet moves at */
+  float speed;
+  /* fixed x acceleration of the bullet */
+  float gx;
+  /* fixed y acceleration of the bullet */
+  float gy;
+  /* fixed z acceleration of the bullet */
+  float gz;
   /** the origin of the bullet who can not be hit by it */
   struct Actor const *master;
 };
@@ -28,7 +36,7 @@ void Bullet_init();
 /** grabs you a default bullet based on it's name
  * @param key is the name of the bullet you want to get
  * @return the bullet. it's const since it's only needed as a mother */
-struct Bullet *Bullet_get(char const *key);
+struct Bullet const *Bullet_get(char const *key);
 
 
 #endif

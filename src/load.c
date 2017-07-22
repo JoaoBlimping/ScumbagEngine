@@ -6,7 +6,7 @@
 
 
 
-struct load_Bucket *load_all(char const *filename,void *(*builder)(char const *,char const *,void *),int size)
+struct load_Bucket *load_all(char const *filename,void (*builder)(char const *,char const *,void *),int size)
 {
     char *file = ini_openFile(filename);
     struct LinkedList *keys = ini_getSections(file);

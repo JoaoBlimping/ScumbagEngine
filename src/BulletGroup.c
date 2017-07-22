@@ -13,28 +13,37 @@ struct BulletGroup *BulletGroup_create(int size,struct Bullet const *mother,stru
   group->mother = mother;
   for (int i = 0;i < size;i++)
   {
+    group->children[i].speed = mother->speed;
+    Level_addBullet(group->children + i,level);
     group->children[i].object = Level_addObject(level);
+    group->children[i].object->w = 1;
+    group->children[i].object->h = 1;
     group->children[i].object->src.x = mother->object->src.x;
     group->children[i].object->src.y = mother->object->src.y;
-    group->children[i].object->src.h = mother->object->src.w;
-    group->children[i].object->src.x = mother->object->src.h;
-    group->children[i].object->dst.h = mother->object->dst.w;
-    group->children[i].object->dst.x = mother->object->dst.h;
+    group->children[i].object->src.w = mother->object->src.w;
+    group->children[i].object->src.h = mother->object->src.h;
+    group->children[i].object->dst.w = mother->object->dst.w;
+    group->children[i].object->dst.h = mother->object->dst.h;
+    group->children[i].object->texture = mother->object->texture;
+    group->children[i].object->alive = 0;
   }
   return group;
 }
 
 
-struct Bullet *BulletGroup_add(float x,float y,float z,struct BulletGroup *group)
+struct Bullet *BulletGroup_add(float x,float y,float z,float angle,struct BulletGroup *group)
 {
   for (int i = 0;i < group->nBullets;i++)
   {
     if (!group->children[i].object->alive)
     {
+      group->children[i].vx = cos(angle);
+      group->children[i].vy = sin(angle);
+      group->children[i].vz = 0;
       group->children[i].object->x = x;
       group->children[i].object->y = y;
       group->children[i].object->z = z;
-      group->children[i].object->alive = 69;
+      group->children[i].object->alive = 1;
       return group->children + i;
     }
   }

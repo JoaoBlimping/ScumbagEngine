@@ -23,15 +23,18 @@
 #define List_POP(list) list[list##l - 1];list##l--
 
 /** makes like a for loop over a list */
-#define List_ITERATE(list,var) for (int var = 0;var < list##l;i++)
+#define List_ITERATE(list,var) for (int var = 0;var < list##l + list##r;i++)
 
 /** removes an item from an arbitrary spoit in the list and also messes with the order of the
  * items */
 #define List_REMOVE(list,index) list[index] = list[list##l - 1];list##l--
 
-#define List_CONCURRENT_REMOVE(list,index) list[index] = list[list##l - 1];list##r++
+/** copies end element into this element, and then says to remove that element from the end later */
+#define List_CONCURRENT_REMOVE(list,index) list[index] = list[list##l - 1];list##r++;list##l--
 
-#define List_FLUSH(list) list##l -= list##r;list##r = 0
+/** this is called after the stuff where concurrent remove is used and this actually removes them
+ * truly */
+#define List_FLUSH(list) list##r = 0
 
 /** puts the size of the list */
 #define List_SIZE(list) list##l

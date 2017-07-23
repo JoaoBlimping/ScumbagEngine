@@ -2,6 +2,10 @@
 #define GUI_H
 
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+
 /** the different types of elements that there are */
 enum gui_ElementType
 {
@@ -24,7 +28,7 @@ struct gui_Element
 {
   int x,y,w,h;
   /** the type of element that it is */
-  gui_ElementType type;
+  enum gui_ElementType type;
   /** the amount of content such as length of text in a text, or number of children in a hbox */
   int contentLength;
   /** the content, whatever it may be from other elements to text or whatever else */
@@ -38,8 +42,9 @@ struct gui_Element
 /** loads in some default window sizes */
 void gui_init();
 
+
 /** gives you a basic window shape for you to enjoy */
-gui_Element *gui_get(char const *key);
+struct gui_Element *gui_get(char const *key);
 
 
 /** updates the current gui if there is one

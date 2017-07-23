@@ -127,7 +127,6 @@ int main(int argc,char **argv)
   render_init("big boopwreopwr",900,666,argc > 1);
 
   // Now load some images
-  Image_init();
   Level_init();
   Bullet_init();
 

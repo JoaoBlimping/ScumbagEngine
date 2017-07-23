@@ -1,28 +1,27 @@
 #include "Image.h"
 
 #include "ini.h"
-#include "List.h"
+#include "HashMap.h"
 #include "render.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <stdint.h>
 
 
-#define MAX_IMAGES 0xff
+#define HASH_SIZE 0x100
 
 
-SDL_Texture *List_CREATE(images,MAX_IMAGES);
+
+struct HashMap *imageMap;
 
 
-void buildImage(char const *key)
+SDL_Texture *buildImage(char const *key)
 {
-  char *url = ini_readString(file,key,"url","images/default.png");
-
-  SDL_Surface *surface = IMG_Load(url);
-  if (surface == NULL) printf( "can't load image %s, SDL_image Error: %s\n",url,IMG_GetError());
+  SDL_Surface *surface = IMG_Load(key);
+  if (surface == NULL) printf( "can't load image %s, SDL_image Error: %s\n",key,IMG_GetError());
 
   SDL_Texture *item = SDL_CreateTextureFromSurface(render_renderer,surface);
-  if (item == NULL) printf( "can't create texture from %s, SDL Error: %s\n",url,SDL_GetError());
+  if (item == NULL) printf( "can't create texture from %s, SDL Error: %s\n",key,SDL_GetError());
   SDL_FreeSurface(surface);
 
   return item;
@@ -30,13 +29,21 @@ void buildImage(char const *key)
 
 
 
+
+void Image_init()
+{
+  imageMap = HashMap_create(HASH_SIZE);
+}
+
+
+
 SDL_Texture *Image_get(char const *key)
 {
-  // Try and get if it already exists
-  List_ITERATE(images,i)
+  SDL_Texture *image = HashMap_get(imageMap,key);
+  if (image == NULL)
   {
-    if (!strcmp(images[i] FUCK ))
-
+    image = buildImage(key);
+    HashMap_add(imageMap,key,image);
   }
-
+  return image;
 }

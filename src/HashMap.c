@@ -65,10 +65,9 @@ void *HashMap_get(struct HashMap *map,char const *key)
 
   do
   {
-    if (!strcmp(bucket->key,key)) return bucket->value;
+    if (bucket->key && !strcmp(bucket->key,key)) return bucket->value;
     bucket = bucket->next;
   } while (bucket);
 
-  printf("couldn't find key %s\n",key);
   return NULL;
 }

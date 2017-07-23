@@ -16,8 +16,8 @@
 #include <stdint.h>
 
 
-#define OBJECT_LIST_SIZE 7000
-#define BULLET_LIST_SIZE 2000
+#define Level_OBJECT_LIST_SIZE 7000
+#define Level_BULLET_LIST_SIZE 2000
 
 
 /** a level in the game */
@@ -34,9 +34,9 @@ struct Level
   /** background colour of the level */
   int backgroundColour;
   /** all the objects in the map that have to get sorted and displayed and that */
-  struct Object *List_DEFINE(objects,OBJECT_LIST_SIZE);
+  struct Object *objects[Level_OBJECT_LIST_SIZE];
   /** all of the bullets in the level */
-  struct Bullet *List_DEFINE(bullets,BULLET_LIST_SIZE);
+  struct Bullet *List_DEFINE(bullets,Level_BULLET_LIST_SIZE);
   /** the neumber of layers */
   int nLayers;
   /** this is an array of pointers to arrays of ints where each one is a layer of the map, each
@@ -78,10 +78,10 @@ int Level_checkSpace(struct Level *level,float x,float y,float z,float w,float h
 float Level_floor(struct Level *level,float x,float y,float z);
 
 
-/** adds an object to the level
- * @param level is a pointer to the level in which we are adding this new object
- * @return a fresh new object */
-struct Object *Level_addObject(struct Level *level);
+/** gets you a fresh objecy
+ * @param level is the level
+ * @return a fresh level which is now set as in use which you must unset yourself */
+struct Object *Level_getObject(struct Level *level);
 
 
 /** adds a bullet to the level

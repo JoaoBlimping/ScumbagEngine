@@ -3,6 +3,20 @@
   with the collision detector.
 
 
+[ ] ISSUE TO LOOK INTO
+ok so you know how bullets have their own little bullet pools? well we have a problem and that
+problem is you can't remove bullets objects from the objects list even when they are no longer
+needed which will happen. However, I have a solution. Treat the objects list as a giant pool of
+objects that you can use, so when you need one, you get a dead one from the end of the pool,
+call it alive and use it, then when it is no longer needed, you just call it dead and leave it
+floating in the pool. Obviously, being dead will make things automatically make things go to the
+back of the pool. Problem with this approach is that each time you bring something to life all of
+it's parameters will need to be set and there are like ten. How about if bullet groups still have
+to collect their elements from the pool and return them back there, but there is another parameter
+called reserved which makes it that even if a given element is dead it is still not free for the
+taking, and so the bullet group does still maintain it's set of objects for the whole time that they
+need objects
+
 
 [ ] Asset management type hings
   [x] There are a few things that require linking between strings and other objects, so I am
@@ -19,11 +33,8 @@
   it will play it.
   Perhaps with music, don't actually load them in, just stream them so that it doesn't load for ages
   at the start, and it uses less memory.
-  [ ] In order to get rid of a lot of errors that might actually matter later on, I need to not use
-  a pointer as an int. Instead we can possibly just return the length of the number of buckets
-  from the loader function, or we can add some new thing that the first bucket points to. Or we
-  could store it in the name as the first byte or something ridiculous like that.
-  [ ] Images shouldn't be all loaded at the start, I should make some kind of repository thing that
+  [ ] switch over all the things in load to use my new hashmap class
+  [x] Images shouldn't be all loaded at the start, I should make some kind of repository thing that
   loads them in when they are first asked for, and just recycled from then on
 
 [ ] Adding bullets to the game.

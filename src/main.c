@@ -35,39 +35,35 @@ void loop()
 {
   struct Level *level = Level_loadLevel("maps/street.tmx");
 
-  struct Object dude;
-  dude.x = 20;
-  dude.y = 20;
-  dude.z = 1.6;
-  dude.w = 0.8;
-  dude.h = 1.5;
-  dude.alive = 69;
-  dude.src.x = dude.src.y = 0;
-  dude.src.w = dude.dst.w = 64;
-  dude.src.h = dude.dst.h = 128;
-  dude.texture = Image_get("sproingo");
+  struct Object *dude = Level_getObject(level);
+  dude->x = 20;
+  dude->y = 20;
+  dude->z = 1.6;
+  dude->w = 0.8;
+  dude->h = 1.5;
+  dude->alive = 69;
+  dude->src.x = dude->src.y = 0;
+  dude->src.w = dude->dst.w = 64;
+  dude->src.h = dude->dst.h = 128;
+  dude->texture = Image_get("images/sproingo.png");
 
 
-  struct Object shadow;
-  shadow.w = 1;
-  shadow.h = 0.1;
-  shadow.alive = 69;
-  shadow.src.x = shadow.src.y = 0;
-  shadow.src.w = shadow.dst.w = 64;
-  shadow.src.h = shadow.dst.h = 48;
-  shadow.texture = Image_get("shadow");
+  struct Object *shadow = Level_getObject(level);
+  shadow->w = 1;
+  shadow->h = 0.1;
+  shadow->alive = 69;
+  shadow->src.x = shadow->src.y = 0;
+  shadow->src.w = shadow->dst.w = 64;
+  shadow->src.h = shadow->dst.h = 48;
+  shadow->texture = Image_get("images/shadow.png");
 
   struct Bullet const *bullet = Bullet_get("dart");
 
-  struct BulletGroup *bullets = BulletGroup_create(10,bullet,level);
+  struct BulletGroup *bullets = BulletGroup_create(50,bullet,level);
 
 
 
 
-
-
-  List_PUSH(level->objects,&dude);
-  List_PUSH(level->objects,&shadow);
   int x = 0;
   int y = 100;
 
@@ -104,18 +100,18 @@ void loop()
 
     if ((vx != 0 || vy != 0) && !currentKeyStates[SDL_SCANCODE_LSHIFT]) angle = atan2(vy,vx);
 
-    if (currentKeyStates[SDL_SCANCODE_Z]) BulletGroup_add(dude.x,dude.y,dude.z,angle,bullets);
+    if (currentKeyStates[SDL_SCANCODE_Z]) BulletGroup_fire(dude->x,dude->y,dude->z,angle,bullets);
 
-    x = 50 - (dude.x - dude.y) * 32 - 500;
-    y = (dude.x + dude.y) * 24 - 500;
+    x = 50 - (dude->x - dude->y) * 32 - 500;
+    y = (dude->x + dude->y) * 24 - 500;
 
 
 
-    move(level,&dude,vx,vy,vz);
+    move(level,dude,vx,vy,vz);
 
-    shadow.x = dude.x;
-    shadow.y = dude.y;
-    shadow.z = Level_floor(level,dude.x + dude.w / 2,dude.y + dude.w / 2,dude.z) + shadow.h + 0.03;
+    shadow->x = dude->x;
+    shadow->y = dude->y;
+    shadow->z = Level_floor(level,dude->x + dude->w / 2,dude->y + dude->w / 2,dude->z) + shadow->h + 0.03;
   }
 }
 
@@ -127,6 +123,7 @@ int main(int argc,char **argv)
   render_init("big boopwreopwr",900,666,argc > 1);
 
   // Now load some images
+  Image_init();
   Level_init();
   Bullet_init();
 

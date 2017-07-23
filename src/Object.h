@@ -13,6 +13,7 @@ struct Object
   float w;
   float h;
   int alive;
+  int reserved;
   SDL_Rect src;
   SDL_Rect dst;
   SDL_Texture *texture;

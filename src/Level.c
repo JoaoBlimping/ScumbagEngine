@@ -9,7 +9,7 @@
 #include <SDL2/SDL_image.h>
 
 
-#define BUFFER_SIZE 0xf
+#define BUFFER_SIZE 0x10
 #define TILE_INDEX(x,y,width) (x * width) + y
 #define GID_CLEAR_FLAG(gid) (gid & TMX_FLIP_BITS_REMOVAL)
 
@@ -35,20 +35,18 @@ SDL_Texture *textureLoader(char const *file)
 
 void sortObjects(struct Level *level)
 {
-	struct Object **list = level->objects;
-	int length = List_SIZE(level->objects);
-
-	for (int i = 1;i < length;i++)
+	for (int i = 1;i < Level_OBJECT_LIST_SIZE;i++)
   {
-    struct Object *temp = list[i];
+    struct Object *temp = level->objects[i];
     int j = i - 1;
 
-    while (j >= 0 && (list[j]->x + list[j]->y + list[j]->z > temp->x + temp->y + temp->z || list[j]->z - list[j]->h > temp->z))
+    while (j >= 0 && (level->objects[j]->x + level->objects[j]->y + level->objects[j]->z >
+					 temp->x + temp->y + temp->z || level->objects[j]->z - level->objects[j]->h > temp->z))
     {
-      list[j + 1] = list[j];
+      level->objects[j + 1] = level->objects[j];
       j--;
     }
-    list[j + 1] = temp;
+    level->objects[j + 1] = temp;
   }
 }
 
@@ -59,7 +57,8 @@ void drawObjects(struct Level *level,int cameraX,int cameraY)
 	int height = level->tileHeight;
 	int halfHeight = level->tileHeight >> 1;
 
-	List_ITERATE(level->objects,i)
+
+	for (int i = 0;i < Level_OBJECT_LIST_SIZE;i++)
 	{
 		struct Object *obj = level->objects[i];
 		if (!obj->alive) continue;
@@ -86,7 +85,7 @@ struct Level *Level_loadLevel(char const *filename)
 
 	// Make the basic thing
 	struct Level *level = calloc(sizeof(struct Level),1);
-	List_INIT(level->objects);
+	for (int i = 0;i < Level_OBJECT_LIST_SIZE;i++) level->objects[i] = calloc(sizeof(struct Object),1);
 	List_INIT(level->bullets);
 	level->width = map->width;
 	level->breadth = map->height;
@@ -115,10 +114,11 @@ struct Level *Level_loadLevel(char const *filename)
 				if (map->tiles[gid] != NULL)
 	      {
 					tmx_tileset *ts = map->tiles[gid]->tileset;
-					struct Object *block = malloc(sizeof(struct Object));
+					struct Object *block = level->objects[x * map->width + y + i * map->width * map->height];
 					block->x = x;
 					block->y = y;
 					block->alive = 69;
+					block->reserved = 69;
 
 					tmx_property *properties = map->tiles[gid]->properties;
 					while (properties)
@@ -141,7 +141,6 @@ struct Level *Level_loadLevel(char const *filename)
 					block->src.h = block->dst.h = ts->tile_height;
 
 					block->texture = ts->image->resource_image;
-					List_PUSH(level->objects,block);
 				}
 			}
 		}
@@ -203,11 +202,18 @@ float Level_floor(struct Level *level,float x,float y,float z)
 }
 
 
-struct Object *Level_addObject(struct Level *level)
+struct Object *Level_getObject(struct Level *level)
 {
-	struct Object *obj = calloc(sizeof(struct Object),1);
-	List_PUSH(level->objects,obj);
-	return obj;
+	for (int i = 0;i < Level_OBJECT_LIST_SIZE;i++)
+	{
+		if (!(level->objects[i]->alive || level->objects[i]->reserved))
+		{
+			level->objects[i]->reserved = 69;
+			return level->objects[i];
+		}
+	}
+	printf("Level is overflowing with objects!!\n");
+	return NULL;
 }
 
 
@@ -253,6 +259,6 @@ void Level_free(struct Level *level)
 	for (int i = 0;i < level->nLayers;i++) free(level->collisions[i]);
 	free(level->collisions);
 	free(level->heights);
-	List_ITERATE(level->objects,i) free(level->objects[i]);
+	for (int i = 0;i < Level_OBJECT_LIST_SIZE;i++) free(level->objects[i]);
 	tmx_map_free(level->tiledMap);
 }

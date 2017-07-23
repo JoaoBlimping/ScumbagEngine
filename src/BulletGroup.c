@@ -15,7 +15,7 @@ struct BulletGroup *BulletGroup_create(int size,struct Bullet const *mother,stru
   {
     group->children[i].speed = mother->speed;
     Level_addBullet(group->children + i,level);
-    group->children[i].object = Level_addObject(level);
+    group->children[i].object = Level_getObject(level);
     group->children[i].object->w = 1;
     group->children[i].object->h = 1;
     group->children[i].object->src.x = mother->object->src.x;
@@ -31,7 +31,19 @@ struct BulletGroup *BulletGroup_create(int size,struct Bullet const *mother,stru
 }
 
 
-struct Bullet *BulletGroup_add(float x,float y,float z,float angle,struct BulletGroup *group)
+void BulletGroup_destroy(struct BulletGroup *group,struct Level *level)
+{
+  for (int i = 0;i < group->nBullets;i++)
+  {
+    group->children[i].object->alive = 0;
+    group->children[i].object->reserved = 0;
+    
+  }
+  free(group);
+}
+
+
+struct Bullet *BulletGroup_fire(float x,float y,float z,float angle,struct BulletGroup *group)
 {
   for (int i = 0;i < group->nBullets;i++)
   {

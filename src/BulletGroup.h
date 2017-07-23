@@ -29,13 +29,19 @@ struct BulletGroup
 struct BulletGroup *BulletGroup_create(int size,struct Bullet const *mother,struct Level *level);
 
 
+/** destroys the bullet group, and all bullets inside it, and removes the objects from the level
+ * @param group is the bullet group to destroy
+ * @param level is the level it was in */
+void BulletGroup_destroy(struct BulletGroup *group,struct Level *level);
+
+
 /** adds a bullet to the bullet group unless it is full
  * @param x is the x position to add the bullet at
  * @param y is the y position to add the bullet at
  * @param z is the z position to add the bullet at
  * @param angle is the angle to fire it at
  * @param group is the group we are doing this for */
-struct Bullet *BulletGroup_add(float x,float y,float z,float angle,struct BulletGroup *group);
+struct Bullet *BulletGroup_fire(float x,float y,float z,float angle,struct BulletGroup *group);
 
 
 #endif

@@ -1,7 +1,7 @@
 #include "Scene.h"
 
-#include "List.h"
-#include "gui.h"
+#include "../List.h"
+#include "../gui.h"
 
 
 #define MAX_SCENES 10
@@ -26,12 +26,13 @@ void Scene_set(char const *name,int argc,char **argv)
   {
     if (!strcmp(scenes[i]->name,name))
     {
-      currentScene->death();
+      if (currentScene) currentScene->death();
       currentScene = scenes[i];
-      currentScene->birth();
+      currentScene->birth(argc,argv);
+      return;
     }
   }
-  printf("No scene named %s, idiot.",name);
+  printf("No scene named %s, idiot.\n",name);
 }
 
 

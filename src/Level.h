@@ -18,6 +18,7 @@
 
 #define Level_OBJECT_LIST_SIZE 7000
 #define Level_BULLET_LIST_SIZE 2000
+#define Level_ACTOR_LIST_SIZE 100
 
 
 /** a level in the game */
@@ -51,6 +52,7 @@ struct Level
 };
 
 
+/** just does some housekeeping bullshit */
 void Level_init();
 
 

@@ -7,23 +7,24 @@
 
 
 
-struct load_Bucket *bullets;
+struct HashMap *bullets;
 
 
-void buildBullet(char const *key,char const *file,struct Bullet *item)
+void buildBullet(char const *key,char const *file,void *item)
 {
-  item->speed = ini_readFloat(file,key,"speed",1);
-  item->object = calloc(sizeof(struct Object),1);
-  item->object->texture = Image_get(ini_readString(file,key,"key","sproingo"));
-  item->object->w = ini_readFloat(file,key,"width",1);
-  item->object->h = ini_readFloat(file,key,"height",1);
+  struct Bullet *bullet = (struct Bullet *)item;
+  bullet->speed = ini_readFloat(file,key,"speed",1);
+  bullet->object = calloc(sizeof(struct Object),1);
+  bullet->object->texture = Image_get(ini_readString(file,key,"key","sproingo"));
+  bullet->object->w = ini_readFloat(file,key,"width",1);
+  bullet->object->h = ini_readFloat(file,key,"height",1);
 
-  item->object->src.x = 0;
-  item->object->src.y = 0;
-  item->object->src.w = 60;
-  item->object->src.h = 60;
-  item->object->dst.w = 40;
-  item->object->dst.h = 40;
+  bullet->object->src.x = 0;
+  bullet->object->src.y = 0;
+  bullet->object->src.w = 60;
+  bullet->object->src.h = 60;
+  bullet->object->dst.w = 40;
+  bullet->object->dst.h = 40;
 }
 
 
@@ -35,7 +36,7 @@ void Bullet_init()
 
 struct Bullet const *Bullet_get(char const *key)
 {
-  struct Bullet *bullet = load_get(key,bullets);
+  struct Bullet *bullet = HashMap_get(bullets,key);
   if (bullet == NULL)
   {
     printf("can't get bullet at %s\n",key);

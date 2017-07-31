@@ -5,6 +5,9 @@
 struct Actor
 {
   char const *name;
+
+  struct Object *body;
+  struct Object *shadow;
 };
 
 

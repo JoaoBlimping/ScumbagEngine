@@ -1,23 +1,3 @@
-[x] collision detection and movement and shit
-  [x] make another model of the level which is stored alongside in an array kind of format for use
-  with the collision detector.
-
-
-[ ] ISSUE TO LOOK INTO
-ok so you know how bullets have their own little bullet pools? well we have a problem and that
-problem is you can't remove bullets objects from the objects list even when they are no longer
-needed which will happen. However, I have a solution. Treat the objects list as a giant pool of
-objects that you can use, so when you need one, you get a dead one from the end of the pool,
-call it alive and use it, then when it is no longer needed, you just call it dead and leave it
-floating in the pool. Obviously, being dead will make things automatically make things go to the
-back of the pool. Problem with this approach is that each time you bring something to life all of
-it's parameters will need to be set and there are like ten. How about if bullet groups still have
-to collect their elements from the pool and return them back there, but there is another parameter
-called reserved which makes it that even if a given element is dead it is still not free for the
-taking, and so the bullet group does still maintain it's set of objects for the whole time that they
-need objects
-
-
 [ ] Asset management type hings
   [x] There are a few things that require linking between strings and other objects, so I am
   probably going to need to implement some kind of hash map. Either that or just decide to search
@@ -33,9 +13,10 @@ need objects
   it will play it.
   Perhaps with music, don't actually load them in, just stream them so that it doesn't load for ages
   at the start, and it uses less memory.
-  [ ] switch over all the things in load to use my new hashmap class
+  [x] switch over all the things in load to use my new hashmap class
   [x] Images shouldn't be all loaded at the start, I should make some kind of repository thing that
   loads them in when they are first asked for, and just recycled from then on
+  [ ] Once I figure out scripts, we're going to have to do some stuff for them too
 
 [ ] Adding bullets to the game.
   [x] Bullet pooling so that there are not too many. Ok, so we can create a bullet pool and each
@@ -44,18 +25,26 @@ need objects
   look after themselves. Then, in order to remove
   [x] Bullets will have an ini file, but it will just contain their graphics, their size, and their
   default speed, but this stuff can maybe be overidden
-  [ ] do collision detection between bullets and characters to shotten them
+  [ ] do collision detection between bullets and characters to shotten them. Rather than go to the
+  effort of adding spherical collision detection with the level, make it that it is only checked
+  against characters. Though of course there must be two kinds... sphere on point for player, and
+  sphere on cube for enemies.
 
 [ ] Add the gui system and simultaneously, figure out the scripting system
-  [ ] it needs to load in a bunch of default window layouts that set the dimensions of the outer
+  [x] it needs to load in a bunch of default window layouts that set the dimensions of the outer
   window, and maybe also it's type. so it needs init stuff and an ini file
-  [ ] The GUI system also basically has to control the flow of control of the game, or be caught up
+  [x] The GUI system also basically has to control the flow of control of the game, or be caught up
   in it. so that means I need to do that at the same time.
-    [ ] scenes can basically consist of a struct with a name and a couple of function pointers
+    [x] scenes can basically consist of a struct with a name and a couple of function pointers
     (init,update,render,exit). Then all their stuff can still hang around statically in their own
     source files.
-    [ ] yeah and then the usual stuff with gui overriding the scene in controlling stuff, but the
+    [x] yeah and then the usual stuff with gui overriding the scene in controlling stuff, but the
     scene still appears beneath it
+  [ ] Text elements don't actually exist, they are just image elements that use dynamically
+  generated text textures, that are made at their birth.
+    [ ] actually, there isn't really any reason for image elements to exist either, they can just
+    be HBOXes or VBOXes that don't have any contents, but maybe I will add some special functions
+    for adding them if I feel schnazzy
 
 [ ] Add other characters and also triggers to level loader somehow.
   [ ] Make it that characters are added into the level using special tiles that have a picture of
@@ -64,3 +53,25 @@ need objects
   [ ] Add scripts that control the player and other actors
 
 [ ] Figure out how to make the player and other characters animated
+
+
+
+
+[x] collision detection and movement and shit
+  [x] make another model of the level which is stored alongside in an array kind of format for use
+  with the collision detector.
+
+
+[x] ISSUE TO LOOK INTO
+ok so you know how bullets have their own little bullet pools? well we have a problem and that
+problem is you can't remove bullets objects from the objects list even when they are no longer
+needed which will happen. However, I have a solution. Treat the objects list as a giant pool of
+objects that you can use, so when you need one, you get a dead one from the end of the pool,
+call it alive and use it, then when it is no longer needed, you just call it dead and leave it
+floating in the pool. Obviously, being dead will make things automatically make things go to the
+back of the pool. Problem with this approach is that each time you bring something to life all of
+it's parameters will need to be set and there are like ten. How about if bullet groups still have
+to collect their elements from the pool and return them back there, but there is another parameter
+called reserved which makes it that even if a given element is dead it is still not free for the
+taking, and so the bullet group does still maintain it's set of objects for the whole time that they
+need objects

@@ -33,6 +33,13 @@ SDL_Texture *textureLoader(char const *file)
 }
 
 
+void textureFreer(void *item)
+{
+	SDL_Texture *texture = (SDL_Texture *)item;
+	SDL_DestroyTexture(item);
+}
+
+
 void sortObjects(struct Level *level)
 {
 	for (int i = 1;i < Level_OBJECT_LIST_SIZE;i++)
@@ -71,8 +78,8 @@ void drawObjects(struct Level *level,int cameraX,int cameraY)
 
 void Level_init()
 {
-	tmx_img_load_func = textureLoader;
-	tmx_img_free_func = SDL_DestroyTexture;
+	tmx_img_load_func = (void *)textureLoader;
+	tmx_img_free_func = textureFreer;
 }
 
 

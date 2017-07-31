@@ -4,11 +4,13 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 
 
 SDL_Window *render_window;
 SDL_Renderer *render_renderer;
+TTF_Font *render_font;
 
 
 

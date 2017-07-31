@@ -3,118 +3,16 @@
  *  |   \/ \/ || \ / VAEDSOM GEDARMEM SOMOARSE
  *   \____________/ */
 #include "Image.h"
-#include "BulletGroup.h"
 #include "Level.h"
-#include "load.h"
 #include "Bullet.h"
 #include "render.h"
+#include "gui.h"
+#include "scenes/Scene.h"
+#include "scenes/Gameplay.h"
 #include <stdint.h>
 #include <math.h>
-
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-
-
-
-// TODO: this definitely doesn't belong here
-void move(struct Level *level,struct Object *dude,float vx,float vy,float vz)
-{
-  if (!Level_checkSpace(level,dude->x + vx,dude->y,dude->z,dude->w,dude->h)) vx = 0;
-  if (!Level_checkSpace(level,dude->x,dude->y + vy,dude->z,dude->w,dude->h)) vy = 0;
-  if (!Level_checkSpace(level,dude->x,dude->y,dude->z + vz,dude->w,dude->h)) vz = 0;
-  dude->x += vx;
-  dude->y += vy;
-  dude->z += vz;
-}
-
-
-
-
-
-void loop()
-{
-  struct Level *level = Level_loadLevel("maps/street.tmx");
-
-  struct Object *dude = Level_getObject(level);
-  dude->x = 20;
-  dude->y = 20;
-  dude->z = 1.6;
-  dude->w = 0.8;
-  dude->h = 1.5;
-  dude->alive = 69;
-  dude->src.x = dude->src.y = 0;
-  dude->src.w = dude->dst.w = 64;
-  dude->src.h = dude->dst.h = 128;
-  dude->texture = Image_get("images/sproingo.png");
-
-
-  struct Object *shadow = Level_getObject(level);
-  shadow->w = 1;
-  shadow->h = 0.1;
-  shadow->alive = 69;
-  shadow->src.x = shadow->src.y = 0;
-  shadow->src.w = shadow->dst.w = 64;
-  shadow->src.h = shadow->dst.h = 48;
-  shadow->texture = Image_get("images/shadow.png");
-
-  struct Bullet const *bullet = Bullet_get("dart");
-
-  struct BulletGroup *bullets = BulletGroup_create(50,bullet,level);
-
-
-
-
-  int x = 0;
-  int y = 100;
-
-  float angle = 0;
-
-
-  render_setFillColour(level->backgroundColour);
-
-
-
-  SDL_Event e;
-  while (69)
-  {
-    while(SDL_PollEvent(&e) != 0) if(e.type == SDL_QUIT) return;
-
-    SDL_RenderClear(render_renderer);
-    Level_update(level);
-    Level_renderLevel(level,x,y);
-    render_update();
-
-
-    const uint8_t *currentKeyStates = SDL_GetKeyboardState(NULL);
-
-
-
-    float vx = 0;
-    float vy = 0;
-    float vz = -0.1;
-    if (currentKeyStates[SDL_SCANCODE_O]) vy = -0.1;
-    if (currentKeyStates[SDL_SCANCODE_P]) vx = -0.1;
-    if (currentKeyStates[SDL_SCANCODE_K]) vx = 0.1;
-    if (currentKeyStates[SDL_SCANCODE_L]) vy = 0.1;
-    if (currentKeyStates[SDL_SCANCODE_SPACE]) vz = 0.2;
-
-    if ((vx != 0 || vy != 0) && !currentKeyStates[SDL_SCANCODE_LSHIFT]) angle = atan2(vy,vx);
-
-    if (currentKeyStates[SDL_SCANCODE_Z]) BulletGroup_fire(dude->x,dude->y,dude->z,angle,bullets);
-
-    x = 50 - (dude->x - dude->y) * 32 - 500;
-    y = (dude->x + dude->y) * 24 - 500;
-
-
-
-    move(level,dude,vx,vy,vz);
-
-    shadow->x = dude->x;
-    shadow->y = dude->y;
-    shadow->z = Level_floor(level,dude->x + dude->w / 2,dude->y + dude->w / 2,dude->z) + shadow->h + 0.03;
-  }
-}
-
 
 
 int main(int argc,char **argv)
@@ -124,11 +22,27 @@ int main(int argc,char **argv)
 
   // Now load some images
   Image_init();
+  gui_init();
   Level_init();
   Bullet_init();
+  Gameplay_init();
+
+  // Put in the first scene
+  char *file = "maps/street.tmx";
+  Scene_set("gameplay",1,&file);
+
+  // set up some random gui
+  gui_set(gui_get("textbox"));
 
   // Now do something cool
-  loop();
+  while (69)
+  {
+    SDL_Event e;
+    while(SDL_PollEvent(&e) != 0) if(e.type == SDL_QUIT) return 0;
+    Scene_update();
+    Scene_render();
+    render_update();
+  }
 
   // Closing up
   render_close();

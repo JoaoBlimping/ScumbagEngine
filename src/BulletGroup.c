@@ -37,7 +37,6 @@ void BulletGroup_destroy(struct BulletGroup *group,struct Level *level)
   {
     group->children[i].object->alive = 0;
     group->children[i].object->reserved = 0;
-    
   }
   free(group);
 }
@@ -49,8 +48,8 @@ struct Bullet *BulletGroup_fire(float x,float y,float z,float angle,struct Bulle
   {
     if (!group->children[i].object->alive)
     {
-      group->children[i].vx = cos(angle);
-      group->children[i].vy = sin(angle);
+      group->children[i].vx = cos(angle) * group->children[i].speed;
+      group->children[i].vy = sin(angle) * group->children[i].speed;
       group->children[i].vz = 0;
       group->children[i].object->x = x;
       group->children[i].object->y = y;

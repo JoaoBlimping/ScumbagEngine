@@ -3,7 +3,6 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 
 
 int render_init(char const *title,int width,int height,int fullscreen)
@@ -43,24 +42,6 @@ int render_init(char const *title,int width,int height,int fullscreen)
     return 1;
   }
 
-  // turn on TTF fonts
-  if(TTF_Init() == -1)
-  {
-      printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n",TTF_GetError());
-      return 1;
-  }
-
-
-  // TODO: move this to it's own file later to allow multiple fonts and cool shit like that
-  render_font = TTF_OpenFont("font.ttf",28);
-  if(render_font == NULL)
-  {
-    printf("Failed to load font.ttf! SDL_ttf Error: %s\n",TTF_GetError());
-    return 1;
-  }
-
-
-
   return 0;
 }
 
@@ -76,8 +57,6 @@ void render_close()
 
 void render_update()
 {
-  SDL_Color colour = {255,0,0,0};
-  TTF_RenderText_Solid(render_font,"idiota",colour);
   SDL_RenderPresent(render_renderer);
 }
 
@@ -85,4 +64,12 @@ void render_update()
 void render_setFillColour(int colour)
 {
 	SDL_SetRenderDrawColor(render_renderer,(colour >> 16) & 0xff,(colour >> 8) & 0xff,colour & 0xff,0xff);
+}
+
+
+void render_setColour(SDL_Color *colourObject,int colour)
+{
+  colourObject->r = (colour >> 16) & 0xff;
+  colourObject->g = (colour >> 8) & 0xff;
+  colourObject->b = colour & 0xff;
 }

@@ -40,7 +40,8 @@ struct gui_Element
 /** loads in some default window sizes */
 void gui_init();
 
-
+/** sets the current gui thing, and frees whatever is in there if there is anything
+ * @param element is the new gui thing to be on the screen */
 void gui_set(struct gui_Element *element);
 
 /** gives you a basic window shape for you to enjoy */

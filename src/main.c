@@ -7,6 +7,7 @@
 #include "Bullet.h"
 #include "render.h"
 #include "gui.h"
+#include "font.h"
 #include "scenes/Scene.h"
 #include "scenes/Gameplay.h"
 #include <stdint.h>
@@ -17,11 +18,10 @@
 
 int main(int argc,char **argv)
 {
-  // Get the render system working
+  // Get the systems working
   render_init("big boopwreopwr",900,666,argc > 1);
-
-  // Now load some images
   Image_init();
+  font_init("fonts/sega.ttf");
   gui_init();
   Level_init();
   Bullet_init();
@@ -31,8 +31,11 @@ int main(int argc,char **argv)
   char *file = "maps/street.tmx";
   Scene_set("gameplay",1,&file);
 
-  // set up some random gui
-  gui_set(gui_get("textbox"));
+  // set up some random gui for no reason
+  //gui_set(gui_get("textbox"));
+
+  // render some text for no reason
+  SDL_Texture *text = font_renderText("bap",NULL,0x00aaff);
 
   // Now do something cool
   while (69)
@@ -41,6 +44,7 @@ int main(int argc,char **argv)
     while(SDL_PollEvent(&e) != 0) if(e.type == SDL_QUIT) return 0;
     Scene_update();
     Scene_render();
+    SDL_RenderCopy(render_renderer,text,NULL,NULL);
     render_update();
   }
 

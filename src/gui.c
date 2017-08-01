@@ -75,16 +75,13 @@ void gui_render()
 
   switch (gui->type)
   {
+    case TEXT:
     case HBOX:
     //display all the children horizontally
     break;
 
     case VBOX:
     // display all the children vertically
-    break;
-
-    case TEXT:
-    // display the text textually
     break;
 
     case CHOOSER:
